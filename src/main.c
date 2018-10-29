@@ -61,8 +61,13 @@ int main(int argc, char **argv)
                             break;
 
                         default:
-                            continue;
+                            break;
                     }
+                    break;
+
+                case SDL_MOUSEBUTTONDOWN:
+                    if(event.button.button == SDL_BUTTON_LEFT)
+                        printf("%d / %d\n", event.motion.x, event.motion.y);
                     break;
 
                 case SDL_QUIT:
@@ -70,7 +75,7 @@ int main(int argc, char **argv)
                     break;
 
                 default:
-                    continue;
+                    break;
             }
         }
     }
