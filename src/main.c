@@ -38,10 +38,27 @@ int main(int argc, char **argv)
     BackgroundRect.x = (WIN_W - BackgroundRect.w) / 2;
     BackgroundRect.y = (WIN_H - BackgroundRect.h) / 2;
 
-    if(SDL_RenderCopy(renderer, BackgroundTexture, NULL, &BackgroundRect) != 0)
-        SDL_ExitWithError(window, renderer, "rendercpy background");
+    SDL_Surface *PersonnageSurface = NULL;
+    SDL_Texture *PersonnageTexture = NULL;
 
-    SDL_RenderPresent(renderer);
+    PersonnageSurface = SDL_LoadBMP("src/PersonnageSurface.bmp");
+
+    if(PersonnageSurface == NULL)
+        SDL_ExitWithError(window, renderer, "persosurf");
+
+    PersonnageTexture = SDL_CreateTextureFromSurface(renderer, PersonnageSurface);
+    SDL_FreeSurface(PersonnageSurface);
+
+    if(PersonnageTexture == NULL)
+        SDL_ExitWithError(window, renderer, "persotext");
+
+    SDL_Rect PersonnageRect;
+
+    if(SDL_QueryTexture(PersonnageTexture, NULL, NULL, &PersonnageRect.w, &PersonnageRect.h) != 0)
+        SDL_ExitWithError(window, renderer, "querytext perso");
+
+    PersonnageRect.x = (WIN_W - PersonnageRect.w) / 2;
+    PersonnageRect.y = (WIN_H - PersonnageRect.h) / 2;
 
     SDL_bool program_launched = SDL_TRUE;
 
@@ -56,6 +73,42 @@ int main(int argc, char **argv)
                 case SDL_KEYDOWN:
                     switch(event.key.keysym.sym)
                     {
+                        case SDLK_z:
+                            PersonnageRect.y -= SPEED;
+                            if(PersonnageRect.y <= 0)
+                            {
+                                PersonnageRect.y += SPEED;
+                                PersonnageRect.y += 0 - PersonnageRect.y;
+                            }
+                            break;
+
+                        case SDLK_s:
+                            PersonnageRect.y += SPEED;
+                            if(PersonnageRect.y + PersonnageRect.h >= WIN_H)
+                            {
+                                PersonnageRect.y -= SPEED;
+                                PersonnageRect.y -= PersonnageRect.h + PersonnageRect.y - WIN_H;
+                            }
+                            break;
+
+                        case SDLK_q:
+                            PersonnageRect.x -= SPEED;
+                            if(PersonnageRect.x <= 0)
+                            {
+                                PersonnageRect.x += SPEED;
+                                PersonnageRect.x += 0 - PersonnageRect.x;                                
+                            }
+                            break;
+
+                        case SDLK_d:
+                            PersonnageRect.x += SPEED;
+                            if(PersonnageRect.x + PersonnageRect.w >= WIN_W)
+                            {
+                                PersonnageRect.x -= SPEED;
+                                PersonnageRect.x -= PersonnageRect.w + PersonnageRect.x - WIN_W;
+                            }
+                            break;
+
                         case SDLK_SPACE:
                             program_launched = SDL_FALSE;
                             break;
@@ -67,7 +120,7 @@ int main(int argc, char **argv)
 
                 case SDL_MOUSEBUTTONDOWN:
                     if(event.button.button == SDL_BUTTON_LEFT)
-                        printf("%d / %d\n", event.motion.x, event.motion.y);
+                        printf(" X = %d | Y = %d\n", event.motion.x, event.motion.y);
                     break;
 
                 case SDL_QUIT:
@@ -75,11 +128,18 @@ int main(int argc, char **argv)
                     break;
 
                 default:
+                    if(SDL_RenderCopy(renderer, BackgroundTexture, NULL, &BackgroundRect) != 0)
+                        SDL_ExitWithError(window, renderer, "rendercpy background");
+                    if(SDL_RenderCopy(renderer, PersonnageTexture, NULL, &PersonnageRect) != 0)
+                        SDL_ExitWithError(window, renderer, "rendercpy perso");
+                    SDL_RenderPresent(renderer);
                     break;
             }
         }
     }
 
+    SDL_DestroyTexture(PersonnageTexture);
+    SDL_DestroyTexture(BackgroundTexture);
     SDL_DestroyRenderer(renderer);
     SDL_DestroyWindow(window);
     SDL_Quit();

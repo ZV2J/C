@@ -3,6 +3,7 @@
 
 #define WIN_W 1920
 #define WIN_H 1080
+#define SPEED 10
 
 void SDL_ExitWithError(SDL_Window *p1, SDL_Renderer *p2, const char *message);
 
