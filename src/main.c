@@ -9,6 +9,9 @@ int main(int argc, char **argv)
 {
     SDL_Window *window = NULL;
     SDL_Renderer *renderer = NULL;
+    int deltaTime;
+
+    GetDeltaTime(&deltaTime);
 
     if(SDL_Init(SDL_INIT_EVERYTHING) != 0)
         SDL_ExitWithError(window, renderer, "init everything");
@@ -48,7 +51,7 @@ int main(int argc, char **argv)
     if(PersonnageSurface == NULL)
         SDL_ExitWithError(window, renderer, "persosurf");
 
-    SDL_SetColorKey(PersonnageSurface, SDL_TRUE, SDL_MapRGB(PersonnageSurface->format, 255, 255, 255));
+    SDL_SetColorKey(PersonnageSurface, SDL_TRUE, SDL_MapRGB((*PersonnageSurface).format, 255, 255, 255));
 
     PersonnageTexture = SDL_CreateTextureFromSurface(renderer, PersonnageSurface);
     SDL_FreeSurface(PersonnageSurface);
@@ -130,7 +133,7 @@ int main(int argc, char **argv)
 
                 case SDL_MOUSEBUTTONDOWN:
                     if(event.button.button == SDL_BUTTON_LEFT)
-                        printf(" X = %d | Y = %d\n", event.motion.x, event.motion.y);
+                        printf(" X = %d | Y = %d || %d\n", event.motion.x, event.motion.y, deltaTime);
                     break;
 
                 case SDL_QUIT:

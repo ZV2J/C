@@ -25,3 +25,11 @@ void SDL_LimitFPS(unsigned int limit)
     else
         SDL_Delay(limit - ticks);
 }
+
+void GetDeltaTime(int *delta)
+{
+    int NOW = SDL_GetPerformanceFrequency();
+    int LAST = 0;
+
+    *delta = NOW;
+}
