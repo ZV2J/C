@@ -62,6 +62,12 @@ int main(int argc, char **argv)
 
     SDL_bool program_launched = SDL_TRUE;
 
+    unsigned int frame_limit = 0;
+
+    frame_limit = SDL_GetTicks() + FPS_LIMIT;
+    SDL_LimitFPS(frame_limit);
+    frame_limit = SDL_GetTicks() + FPS_LIMIT;
+
     while(program_launched)
     {
         SDL_Event event;
@@ -74,37 +80,37 @@ int main(int argc, char **argv)
                     switch(event.key.keysym.sym)
                     {
                         case SDLK_z:
-                            PersonnageRect.y -= SPEED;
+                            PersonnageRect.y -= SPEED;                            
                             if(PersonnageRect.y <= 0)
                             {
-                                PersonnageRect.y += SPEED;
+                                PersonnageRect.y += SPEED;                                
                                 PersonnageRect.y += 0 - PersonnageRect.y;
                             }
                             break;
 
                         case SDLK_s:
-                            PersonnageRect.y += SPEED;
+                            PersonnageRect.y += SPEED;                            
                             if(PersonnageRect.y + PersonnageRect.h >= WIN_H)
                             {
-                                PersonnageRect.y -= SPEED;
+                                PersonnageRect.y -= SPEED;                                
                                 PersonnageRect.y -= PersonnageRect.h + PersonnageRect.y - WIN_H;
                             }
                             break;
 
                         case SDLK_q:
-                            PersonnageRect.x -= SPEED;
+                            PersonnageRect.x -= SPEED;                            
                             if(PersonnageRect.x <= 0)
                             {
-                                PersonnageRect.x += SPEED;
+                                PersonnageRect.x += SPEED;                                
                                 PersonnageRect.x += 0 - PersonnageRect.x;                                
                             }
                             break;
 
                         case SDLK_d:
-                            PersonnageRect.x += SPEED;
+                            PersonnageRect.x += SPEED;                            
                             if(PersonnageRect.x + PersonnageRect.w >= WIN_W)
                             {
-                                PersonnageRect.x -= SPEED;
+                                PersonnageRect.x -= SPEED;                               
                                 PersonnageRect.x -= PersonnageRect.w + PersonnageRect.x - WIN_W;
                             }
                             break;

@@ -13,3 +13,15 @@ void SDL_ExitWithError(SDL_Window *p1, SDL_Renderer *p2, const char *message)
     SDL_Quit();
     exit(EXIT_FAILURE);
 }
+
+void SDL_LimitFPS(unsigned int limit)
+{
+    unsigned int ticks = SDL_GetTicks();
+
+    if(limit < ticks)
+        return;
+    else if(limit > ticks + FPS_LIMIT)
+        SDL_Delay(FPS_LIMIT);
+    else
+        SDL_Delay(limit - ticks);
+}
