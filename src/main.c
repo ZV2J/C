@@ -16,6 +16,8 @@ int main(int argc, char **argv)
     if(SDL_CreateWindowAndRenderer(WIN_W, WIN_H, SDL_WINDOW_FULLSCREEN, &window, &renderer) != 0)
         SDL_ExitWithError(window, renderer, "create window + renderer");
 
+    SDL_SetWindowTitle(window, "Program");
+
     SDL_Surface *BackgroundSurface = NULL;
     SDL_Texture *BackgroundTexture = NULL;
 
@@ -45,6 +47,8 @@ int main(int argc, char **argv)
 
     if(PersonnageSurface == NULL)
         SDL_ExitWithError(window, renderer, "persosurf");
+
+    SDL_SetColorKey(PersonnageSurface, SDL_TRUE, SDL_MapRGB(PersonnageSurface->format, 255, 255, 255));
 
     PersonnageTexture = SDL_CreateTextureFromSurface(renderer, PersonnageSurface);
     SDL_FreeSurface(PersonnageSurface);
