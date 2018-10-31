@@ -9,9 +9,10 @@ int main(int argc, char **argv)
 {
     SDL_Window *window = NULL;
     SDL_Renderer *renderer = NULL;
-    int deltaTime;
 
-    GetDeltaTime(&deltaTime);
+    Uint64 NOW = SDL_GetPerformanceCounter();
+    Uint64 LAST = 0;
+    double deltaTime = 0;
 
     if(SDL_Init(SDL_INIT_EVERYTHING) != 0)
         SDL_ExitWithError(window, renderer, "init everything");
@@ -141,11 +142,20 @@ int main(int argc, char **argv)
                     break;
 
                 default:
+
+                    LAST = NOW;
+                    NOW = SDL_GetPerformanceCounter();
+
+                    deltaTime = (double)((NOW - LAST)*1000 / (double)SDL_GetPerformanceFrequency());
+
                     if(SDL_RenderCopy(renderer, BackgroundTexture, NULL, &BackgroundRect) != 0)
                         SDL_ExitWithError(window, renderer, "rendercpy background");
+
                     if(SDL_RenderCopy(renderer, PersonnageTexture, NULL, &PersonnageRect) != 0)
                         SDL_ExitWithError(window, renderer, "rendercpy perso");
+
                     SDL_RenderPresent(renderer);
+
                     break;
             }
         }
