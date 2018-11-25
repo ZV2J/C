@@ -10,10 +10,6 @@ int main(int argc, char **argv)
     SDL_Window *window = NULL;
     SDL_Renderer *renderer = NULL;
 
-    Uint64 NOW = SDL_GetPerformanceCounter();
-    Uint64 LAST = 0;
-    double deltaTime = 0;
-
     if(SDL_Init(SDL_INIT_EVERYTHING) != 0)
         SDL_ExitWithError(window, renderer, "init everything");
 
@@ -87,8 +83,8 @@ int main(int argc, char **argv)
                 case SDL_KEYDOWN:
                     switch(event.key.keysym.sym)
                     {
-                        case SDLK_z:
-                            PersonnageRect.y -= SPEED;                            
+                        case SDLK_z:                                                       
+                            PersonnageRect.y -= SPEED;                                                                        
                             if(PersonnageRect.y <= 0)
                             {
                                 PersonnageRect.y += SPEED;                                
@@ -134,7 +130,7 @@ int main(int argc, char **argv)
 
                 case SDL_MOUSEBUTTONDOWN:
                     if(event.button.button == SDL_BUTTON_LEFT)
-                        printf(" X = %d | Y = %d || %d\n", event.motion.x, event.motion.y, deltaTime);
+                        printf(" X = %d | Y = %d\n", event.motion.x, event.motion.y);
                     break;
 
                 case SDL_QUIT:
@@ -143,10 +139,7 @@ int main(int argc, char **argv)
 
                 default:
 
-                    LAST = NOW;
-                    NOW = SDL_GetPerformanceCounter();
-
-                    deltaTime = (double)((NOW - LAST)*1000 / (double)SDL_GetPerformanceFrequency());
+                    
 
                     if(SDL_RenderCopy(renderer, BackgroundTexture, NULL, &BackgroundRect) != 0)
                         SDL_ExitWithError(window, renderer, "rendercpy background");

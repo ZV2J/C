@@ -8,6 +8,5 @@
 
 void SDL_ExitWithError(SDL_Window *p1, SDL_Renderer *p2, const char *message);
 void SDL_LimitFPS(unsigned int limit);
-void GetDeltaTime(int *delta);
 
 #endif
